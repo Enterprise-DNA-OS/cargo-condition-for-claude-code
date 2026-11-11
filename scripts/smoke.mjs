@@ -62,7 +62,7 @@ try{
  await run(db,['resolve','IS100','--by=Alex','--resolution=Count agreed and evidence recorded']);
  const fixture=path.join(REPO_ROOT,'tests/fixtures/form.csv');const originalShipments=await count('shipments'),originalAudit=await count('audit_log');
  eq((await run(db,['import','cargosnap',fixture,'--dry-run']))[0].rows_imported,2);eq(await count('shipments'),originalShipments);eq(await count('audit_log'),originalAudit);eq(await count('import_batches'),0);
- const rows=parseCsv(fs.readFileSync(fixture,'utf8'));eq(rows[1].Notes,'One damaged pallet\nEvidence requested');
+ const rows=parseCsv(fs.readFileSync(fixture,'utf8'));eq(rows[1].Notes.replace(/\r\n/g,'\n'),'One damaged pallet\nEvidence requested');
  const bad=structuredClone(rows);bad[1]['Observed units']='broken';const badFile=path.join(temp,'bad.csv');fs.writeFileSync(badFile,csv(bad));await reject(['import','cargosnap',badFile],/row 3/);eq(await count('shipments'),originalShipments,'earlier valid import rows rolled back');
  await run(db,['import','cargosnap',fixture]);eq(await count('shipments'),originalShipments+2);eq((await run(db,['import','cargosnap',fixture]))[0].rows_skipped,2);
  const changed=structuredClone(rows);changed[0].Notes='Changed after import';fs.writeFileSync(badFile,csv(changed));await reject(['import','cargosnap',badFile],/Existing inspection differs/);

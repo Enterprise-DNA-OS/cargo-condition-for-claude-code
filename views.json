@@ -1,13 +1,30 @@
 [
   {
-    "name": "week",
-    "title": "This week",
-    "subtitle": "Cargo Condition for Claude Code: what needs attention, rendered by npm run view",
+    "name": "receiving-desk",
+    "title": "Receiving desk",
+    "subtitle": "Demo records are fictional. Review exceptions before release.",
     "sections": [
       {
+        "title": "Condition round",
+        "sql": "select code,site,condition,units,expected_units,seal_check,open_issues from v_condition order by code"
+      },
+      {
         "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "sql": "select * from v_attention order by shipment,kind"
+      }
+    ]
+  },
+  {
+    "name": "weekly-quality",
+    "title": "Weekly cargo quality review",
+    "sections": [
+      {
+        "title": "Issues due",
+        "sql": "select code,shipment,owner,due_on,kind,severity from v_issue_queue where status='open' order by due_on"
+      },
+      {
+        "title": "Record checks",
+        "sql": "select shipment,rule,finding,basis from v_compliance order by shipment,rule"
       }
     ]
   }

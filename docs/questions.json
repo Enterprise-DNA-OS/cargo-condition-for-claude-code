@@ -1,0 +1,42 @@
+[
+  {
+    "ask": "Which shipments have an unexplained seal difference?",
+    "command": "node scripts/cargo.mjs seal-check"
+  },
+  {
+    "ask": "Which receipts are short against the expected count?",
+    "command": "node scripts/cargo.mjs count-variances"
+  },
+  {
+    "ask": "Which damaged inspections still have no evidence attachment?",
+    "command": "node scripts/cargo.mjs missing-evidence"
+  },
+  {
+    "ask": "Which owner has the most overdue cargo issues?",
+    "command": "node scripts/cargo.mjs owner-workload"
+  },
+  {
+    "ask": "Which carrier has damage records and unresolved issues together?",
+    "command": "node scripts/cargo.mjs carrier-review"
+  },
+  {
+    "ask": "Which site has the most seal mismatches?",
+    "command": "node scripts/cargo.mjs site-review"
+  },
+  {
+    "ask": "Which open shipments have not been inspected for a week?",
+    "command": "node scripts/cargo.mjs stale-cargo"
+  },
+  {
+    "ask": "Which shipments are waiting on a sound dispatch inspection?",
+    "command": "node scripts/cargo.mjs release-board"
+  },
+  {
+    "ask": "Who accepted each recorded handover and what is its receipt reference?",
+    "command": "node scripts/cargo.mjs handover-register"
+  },
+  {
+    "ask": "What needs attention before the receiving desk closes today?",
+    "command": "node scripts/cargo.mjs attention"
+  }
+]

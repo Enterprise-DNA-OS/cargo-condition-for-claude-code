@@ -1,115 +1,124 @@
-<h1 align="center">Cargo Condition for Claude Code</h1>
+# Cargo Condition for Claude Code
 
-<p align="center">
-  <strong>The open-source cargo condition and handover record that is just a database and Claude Code.</strong>
-</p>
+Cargo condition, seal checks, damage evidence and handover records in a database you own. Free MIT-licensed software from Enterprise DNA. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Clone, install and own it. [Quick start](#quick-start). | Your forms, release rules, capture screens and Cargosnap history mapped across. [Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_campaign=cargosnap). | Installed, connected and operated through Omni by Enterprise DNA. One setup fee, then a monthly retainer. [Book a call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_campaign=cargosnap). |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Cargosnap data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=cargosnap">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/cargosnap?utm_source=github&utm_medium=readme&utm_campaign=cargosnap">How it works</a></td>
-  </tr>
-</table>
+## What it does
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-cargosnap">Instead of Cargosnap</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+Run the receiving desk, record completed inspections, attach local evidence, allocate issues and prepare handover records. Inspections are immutable; corrections are new records. A release needs clean record checks, a sound dispatch inspection and a named reviewer. No email, payment, customer portal or external write runs from this repository.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Cargo Condition for Claude Code does the job you pay Cargosnap for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Cargosnap dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Cargosnap per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=cargosnap).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+This is the records and review part of a Cargosnap replacement. The free base imports exported form results. Cargosnap's mobile capture, offline workflows and customer portal require a customised implementation. Keep your capture process until that replacement has been tested. Not affiliated with or endorsed by Cargosnap.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or later. A disposable demo needs no account or server.
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/cargo-condition-for-claude-code.git
 cd cargo-condition-for-claude-code
 npm install
+npm test
 npm run demo
+npm run cargo -- condition-round
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+Demo records use fictional businesses and relative dates, so there is always something overdue. `npm run demo` is idempotent. For production, migrate a separate empty database without seeding. Set `DATABASE_URL` for Postgres, or use embedded PGlite. No extensions are required. Hosted anonymous access is blocked by row security. Use a restricted, trusted database operator; this is not a multi-user authorisation service.
 
-### Use it with your own Postgres or Supabase
+Open the folder in your coding agent and ask for the condition round. Every recipe lives under `.claude/commands`; AGENTS.md routes other runtimes to the same instructions.
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+## Commands
 
-## The commands
+| `/shipments` | List the cargo, customer, carrier, site and release state. |
+| `/inspections` | Read all inspections in time order. |
+| `/condition-round` | Run the receiving condition round: counts, seals and open issues. |
+| `/seal-check` | List seals that differ or have not been checked. |
+| `/count-variances` | List receipts whose observed units differ from expected units. |
+| `/damage-review` | Review every damaged inspection, including evidence coverage. |
+| `/issues` | Read issues and their owners. |
+| `/issues-due` | Review open issues due in the next seven days, including overdue ones. |
+| `/owner-workload` | Compare open and overdue issues by owner. |
+| `/carrier-review` | Review carrier damage records alongside unresolved issues. |
+| `/site-review` | Compare the latest cargo condition across sites. |
+| `/handover-register` | Read who handed cargo to whom and which receipt records it. |
+| `/missing-evidence` | Find damage records without attachments. |
+| `/stale-cargo` | Find open cargo whose last inspection is over seven days old. |
+| `/attention` | List record checks, overdue issues, stale inspections and missing handovers. |
+| `/compliance` | Run record checks and distinguish CTU guidance from local controls. |
+| `/release-board` | Review open shipments before dispatch. |
+| `/import-history` | Read import source hashes and counts. |
+| `/shipment` | Read the complete history of one shipment. |
+| `/inspection` | Read one immutable inspection and its evidence. |
+| `/add` | Add a real shipment from the operator's facts. |
+| `/inspect` | Record a completed receipt, packing or dispatch inspection. |
+| `/issue` | Assign an exception to an owner with a due date. |
+| `/resolve` | Record how an issue was resolved. Damage needs a linked attachment. |
+| `/attach` | Copy local evidence into protected storage and record its hash. |
+| `/verify-evidence` | Check that every stored attachment still matches its recorded hash. |
+| `/release` | Record the operator's dispatch decision after a sound dispatch inspection and clean checks. |
+| `/handover` | Record an actual handover receipt for released cargo. |
+| `/log` | Append an operational note without changing inspection history. |
+| `/audit` | Read recorded changes for a shipment. |
+| `/weekly-review` | Write the Monday receiving and claims review from three reads. |
+| `/draft-claim` | Create a draft factual damage evidence summary for review. |
+| `/draft-handover` | Create a draft handover record for review. |
+| `/import` | Import Cargosnap form results using the actual form headings. |
+| `/export` | Export all records, audit history and locally held evidence to a new folder. |
+| `/customise` | Add a field, rule or workflow with a migration and tests. |
+| `/new-view` | Add a read-only branded report. |
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+The one CLI is `npm run cargo -- <command>`. Add `--json` for machine-readable output. References accept case-insensitive exact codes, unique prefixes, IDs and shipment name fragments. Ambiguity lists the candidates and exits 1. Commands are documented in their recipes; `npm run cargo -- --help` lists them.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+## Ten questions to ask
 
-## Instead of Cargosnap
+These combine the local records and your own rules. They are executable questions, not a claim that Cargosnap cannot build similar reports.
 
-<!-- TODO(author): how to bring data across from Cargosnap; link docs/replace-cargosnap.md -->
+1. Which shipments have an unexplained seal difference? `seal-check`
+2. Which receipts are short against the expected count? `count-variances`
+3. Which damaged inspections still have no evidence attachment? `missing-evidence`
+4. Which owner has the most overdue cargo issues? `owner-workload`
+5. Which carrier has damage records and unresolved issues together? `carrier-review`
+6. Which site has the most seal mismatches? `site-review`
+7. Which open shipments have not been inspected for a week? `stale-cargo`
+8. Which shipments are waiting on a sound dispatch inspection? `release-board`
+9. Who accepted each recorded handover and what is its receipt reference? `handover-register`
+10. What needs attention before the receiving desk closes today? `attention`
 
-## Architecture
+## Your first hour: ten things to ask for
 
-```
-cargo-condition-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+1. Put our name, colours and logo in brand.json.
+2. Map our actual Cargosnap form questions without dropping any answers.
+3. Import one reviewed month and compare submission counts.
+4. Attach the original photographs to the matching inspections.
+5. Add our issue owners and review deadlines.
+6. Add the condition grades our receiving team uses.
+7. Require a temperature reading for the products that need one.
+8. Add a customer reference to our handover record.
+9. Make a read-only view for one warehouse.
+10. Set up a shared database and backups for records and evidence together.
 
-## Built for coding agents
+## Switching and evidence
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+[Moving from Cargosnap](docs/replace-cargosnap.md) explains XLSX and CSV mapping, the vendor's 30-day form export window and the limits of form-only imports. [Record checks](docs/compliance.md) cites the CTU Code and labels local policies separately. [Why no front end](docs/why-no-front-end.md) explains the capture workflow.
 
-## Contributing
+Evidence is copied to `.data/files`, with SHA-256 hashes stored in the database. `CARGO_FILES_DIR` changes that location. Exports include records, audit history and locally stored evidence. An administrator can alter the database: these records are not an independently certified chain of custody or electronic signature. Private imports, exports, drafts and generated reports are ignored by Git.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+## Documents and views
 
-## Want it installed and run for you?
+`npm run docs` renders a condition report and handover record for each shipment, with the business name, colours and optional logo in brand.json. `npm run view` creates the receiving desk and weekly cargo quality review. Outputs are read-only HTML, suitable for printing. Draft claims are factual evidence summaries only, never liability findings, and nothing sends.
 
-Enterprise DNA installs Cargo Condition for Claude Code for your business, migrates your Cargosnap data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Tests
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=cargosnap)
-- Read more: [enterprisedna.co/omni/instead-of/cargosnap](https://enterprisedna.co/omni/instead-of/cargosnap?utm_source=github&utm_medium=readme&utm_campaign=cargosnap)
+`npm test` uses a temporary PGlite database and evidence folder, applies migrations twice, seeds twice, exercises every CLI operation, imports real XLSX containers generated from fictional forms, and verifies rollback, ambiguous references, duplicate protection, release controls, audit history, evidence hashes, exports and rendered documents. The same Node test runner runs in Windows and Linux CI. A separate PostgreSQL CI job uses the same migrations and checks.
 
-## License
+## Installed for you
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+Enterprise DNA builds and operates your version through Omni by Enterprise DNA. Your fields, your rules, your records brought across. One setup fee, then a retainer. [Book Sam's 30-minute call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_campaign=cargosnap).
+
+## Licence
+
+MIT. Copyright 2026 Enterprise DNA.

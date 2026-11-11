@@ -1,0 +1,4 @@
+Shipment reference,Cargo description,Customer,Carrier,Site,Expected units,Expected seal,Inspection reference,Inspected at,Stage,Inspector,Condition,Observed units,Observed seal,Notes
+IMP100,Example cartons,Example Customer,Example Carrier,Demo site,12,EX-1,IMP-IN100,2025-04-01T09:00:00+12:00,receipt,Demo Inspector,sound,12,EX-1,"Fictional form, not a captured vendor export"
+IMP101,Example pallets,Example Customer,Example Carrier,Demo site,5,EX-2,IMP-IN101,2025-04-02T10:00:00+12:00,receipt,Demo Inspector,damaged,4,EX-2,"One damaged pallet
+Evidence requested"

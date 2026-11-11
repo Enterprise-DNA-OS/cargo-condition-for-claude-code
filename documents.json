@@ -1,11 +1,49 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "for_each": "select id,code from shipments order by code",
+    "file": "code",
+    "name": "condition-report",
+    "title": "Cargo condition report",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Shipment",
+        "sql": "select code,name,customer,carrier,site,status from shipments where id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Inspection history",
+        "sql": "select code,inspected_at,stage,inspector,condition,units,expected_units,expected_seal,seal_observed,notes from inspections where shipment_id=$1 order by inspected_at"
+      },
+      {
+        "title": "Evidence register",
+        "sql": "select e.name,e.sha256,e.captured_at,e.added_by from evidence e join inspections i on i.id=e.inspection_id where i.shipment_id=$1"
+      },
+      {
+        "title": "Issues and resolution",
+        "sql": "select code,kind,description,owner,due_on,status,resolution,resolved_by from issues where shipment_id=$1"
+      }
+    ]
+  },
+  {
+    "for_each": "select id,code from shipments order by code",
+    "file": "code",
+    "name": "handover-record",
+    "title": "Cargo handover record",
+    "sections": [
+      {
+        "title": "Shipment",
+        "sql": "select code,name,customer,carrier,site,status from shipments where id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Recorded receipts",
+        "note": "Named acknowledgement and receipt reference only. This is not signature verification.",
+        "sql": "select from_party,to_party,happened_at,accepted_by,receipt_ref,notes from handovers where shipment_id=$1 order by happened_at"
+      },
+      {
+        "title": "Record checks",
+        "sql": "select rule,finding,basis from v_compliance where shipment_id=$1"
+      }
     ]
   }
 ]
